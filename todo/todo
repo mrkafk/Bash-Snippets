@@ -146,26 +146,18 @@ getTasks()
       done
       tty_str=$(tty)
       term_width=$(stty -a <"$tty_str" | grep -Po '(?<=columns )\d+')
-      # tty_str=$(tty); stty -a <"$tty_str" | grep -Po '(?<=columns )\d+'
-      echo "### TERM_WIDTH $term_width"
       cat ~/.todo/getTemp.txt | while read tline; do
         task=$(echo "$tline" | cut -d ";" -f 1)
         task_len=${#task}
         date_str=$(echo "$tline" | cut -d ";" -f 2)
         date_str_len=${#date_str}
-        echo "TASK $task DATE_STR $date_str"
         if [[ $(( $task_len + $date_str_len )) -gt $term_width ]]; then
           max_task_len=$(( $term_width - $date_str_len - 2))
-          echo "TASK excessive length TASK_LEN $task_len MAX_TASK_LEN $max_task_len TASK $task"
           task=$(echo "$task" | cut -c-${max_task_len})
-          echo "CUT TASK $task"
         fi
         echo "$task;$date_str" >> ~/.todo/getTemp2.txt
       done
-      echo
-      echo
       cat ~/.todo/getTemp2.txt | column -t -s ";"
-      # cat ~/.todo/getTemp.txt | column -t -s ";"
       rm -f ~/.todo/getTemp.txt
       rm -f ~/.todo/getTemp2.txt
     fi
