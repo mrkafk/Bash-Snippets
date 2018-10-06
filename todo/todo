@@ -82,7 +82,7 @@ addTask()
     if [ ! -d ~/.todo ]; then mkdir ~/.todo; fi
     touch ~/.todo/list.txt
   fi
-  echo "$1;$(date '+%d/%m/%Y %H:%M')" >> ~/.todo/list.txt
+  echo "$1       ;      $(date)" >> ~/.todo/list.txt
 }
 
 checkInternet()
